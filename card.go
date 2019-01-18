@@ -8,8 +8,10 @@ import (
 )
 
 type Section struct {
-	Header string
-	Items  []Item
+	Header       string
+	HeaderMargin int
+	ListIndent   int
+	Items        []Item
 }
 
 type Item struct {
@@ -23,6 +25,9 @@ func (s Section) String() string {
 	if s.Header != "" {
 		output += s.Header + "\n"
 		output += strings.Repeat("-", len(s.Header)) + "\n"
+		if s.HeaderMargin > 0 {
+			output += strings.Repeat("\n", s.HeaderMargin)
+		}
 	}
 
 	longest := 0
@@ -34,6 +39,7 @@ func (s Section) String() string {
 	}
 
 	for _, v := range s.Items {
+		output += strings.Repeat(" ", s.ListIndent)
 		output += color.New(color.Bold).Sprint(align.Right(longest, v.Label))
 		output += ": "
 		output += v.Data
