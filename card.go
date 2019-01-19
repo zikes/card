@@ -39,6 +39,10 @@ func (s Section) String() string {
 	}
 
 	for _, v := range s.Items {
+		if v.Label == "" && v.Data == "" {
+			output.WriteString("\n")
+			continue
+		}
 		output.WriteString(strings.Repeat(" ", s.ListIndent))
 		output.WriteString(color.New(color.Bold).Sprint(align.Right(longest, v.Label)))
 		output.WriteString(": ")
