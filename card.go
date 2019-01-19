@@ -20,13 +20,13 @@ type Item struct {
 }
 
 func (s Section) String() string {
-	output := ""
+	var output strings.Builder
 
 	if s.Header != "" {
-		output += s.Header + "\n"
-		output += strings.Repeat("-", len(s.Header)) + "\n"
+		output.WriteString(s.Header + "\n")
+		output.WriteString(strings.Repeat("-", len(s.Header)) + "\n")
 		if s.HeaderMargin > 0 {
-			output += strings.Repeat("\n", s.HeaderMargin)
+			output.WriteString(strings.Repeat("\n", s.HeaderMargin))
 		}
 	}
 
@@ -39,12 +39,12 @@ func (s Section) String() string {
 	}
 
 	for _, v := range s.Items {
-		output += strings.Repeat(" ", s.ListIndent)
-		output += color.New(color.Bold).Sprint(align.Right(longest, v.Label))
-		output += ": "
-		output += v.Data
-		output += "\n"
+		output.WriteString(strings.Repeat(" ", s.ListIndent))
+		output.WriteString(color.New(color.Bold).Sprint(align.Right(longest, v.Label)))
+		output.WriteString(": ")
+		output.WriteString(v.Data)
+		output.WriteString("\n")
 	}
 
-	return output
+	return output.String()
 }
